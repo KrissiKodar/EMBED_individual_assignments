@@ -1,12 +1,13 @@
 #include <avr/delay.h>
 #include <unity.h>
 
-#include <fifo.h>
+// #include <fifo.h>
+#include <fifo_ring.h>
 
 void test_reset(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.reset();
@@ -17,10 +18,38 @@ void test_reset(void)
     // 4 Cleanup
 }
 
+void test_put(void)
+{
+    // 1 Setup
+    Fifo_ring f;
+    f.put(1);
+
+    // 2-3 Execute and validate
+    TEST_ASSERT_EQUAL(1, f.get());
+
+    // 4 Cleanup
+}
+
+void test_empty(void)
+{
+    // 1 Setup
+    Fifo_ring f;
+    f.put(1);
+    f.put(2);
+    f.put(3);
+    f.put(4);
+    f.put(5);
+
+    // 2-3 Execute and validate
+    TEST_ASSERT_TRUE(!f.is_empty());
+
+    // 4 Cleanup
+}
+
 void test_normal_flow(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.get();
@@ -37,7 +66,7 @@ void test_underflow(void)
 
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.get();
@@ -52,7 +81,7 @@ void test_underflow(void)
 void test_overflow(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.get();
     f.put(2);
@@ -72,7 +101,7 @@ void test_overflow(void)
 void test_overwrite(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.put(3);
@@ -111,6 +140,8 @@ int main()
     RUN_TEST(test_reset);
     RUN_TEST(test_overflow);
     RUN_TEST(test_overwrite);
+    RUN_TEST(test_put);
+    RUN_TEST(test_empty);
 
     UNITY_END(); // stop unit testing
 }

@@ -2,15 +2,16 @@
 #include <avr/delay.h>
 #include <digital_out.h>
 #include <Timer_msec.h>
-#include <fifo.h>
-
+//#include <fifo.h>
+#include <fifo_ring.h> // for circular buffer
 
 int serial_data = 0; // for incoming serial data
 
 Digital_out led(5);
 Timer_msec timer1;
 
-Fifo f;
+//Fifo f;
+Fifo_ring f;
 
 void setup()
 {
