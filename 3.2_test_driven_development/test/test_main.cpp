@@ -125,6 +125,34 @@ void test_overwrite(void)
     // 4 Cleanup
 }
 
+void test_a_lot(void)
+{
+    // 1 Setup
+    Fifo_ring f;
+    f.put(1);
+    f.put(2);
+    f.put(3);
+    f.put(4);
+    f.put(5);
+    f.get();
+    f.get();
+    // it wants to put 6 here, but the buffer is full
+    // 
+    f.put(6);
+    f.put(7);
+
+    // 2-3 Execute and validate
+    TEST_ASSERT_TRUE(f.is_full());
+    TEST_ASSERT_EQUAL(3, f.get());
+    TEST_ASSERT_EQUAL(4, f.get());
+    TEST_ASSERT_EQUAL(5, f.get());
+    TEST_ASSERT_EQUAL(6, f.get());
+    TEST_ASSERT_EQUAL(7, f.get());
+    TEST_ASSERT_TRUE(f.is_empty());
+
+    // 4 Cleanup
+}
+
 int main()
 {
     // NOTE!!! Wait for >2 secs
@@ -142,6 +170,7 @@ int main()
     RUN_TEST(test_overwrite);
     RUN_TEST(test_put);
     RUN_TEST(test_empty);
+    RUN_TEST(test_a_lot);
 
     UNITY_END(); // stop unit testing
 }
