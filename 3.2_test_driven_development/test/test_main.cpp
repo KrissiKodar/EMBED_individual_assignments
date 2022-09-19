@@ -1,13 +1,13 @@
 #include <avr/delay.h>
 #include <unity.h>
 
-#include <fifo.h>
-//#include <fifo_ring.h>
+//#include <fifo.h>
+#include <fifo_ring.h>
 
 void test_reset(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.reset();
@@ -21,7 +21,7 @@ void test_reset(void)
 void test_put(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
 
     // 2-3 Execute and validate
@@ -33,7 +33,7 @@ void test_put(void)
 void test_empty(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.put(3);
@@ -49,7 +49,7 @@ void test_empty(void)
 void test_normal_flow(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.get();
@@ -66,7 +66,7 @@ void test_underflow(void)
 
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     //f.get();
     f.put(1);
     f.put(2);
@@ -82,7 +82,7 @@ void test_underflow(void)
 void test_overflow(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.get();
     f.put(2);
@@ -102,7 +102,7 @@ void test_overflow(void)
 void test_overwrite(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.put(3);
@@ -129,7 +129,7 @@ void test_overwrite(void)
 void test_a_lot(void)
 {
     // 1 Setup
-    Fifo f;
+    Fifo_ring f;
     f.put(1);
     f.put(2);
     f.put(3);
