@@ -7,15 +7,25 @@ Fifo_ring::Fifo_ring()
 
 int Fifo_ring::get()
 {
-    int front_item = buffer[front];
-    front = (front + 1) % FIFO_SIZE;
-    full_check--;
-    return front_item;
+    if (is_empty())
+    {
+        // if buffer is empty return 0 
+        // and dont decrement the full_check
+        return 0;
+    }
+    else
+    {
+        int front_item = buffer[front];
+        front = (front + 1) % FIFO_SIZE;
+        full_check--;
+        return front_item;
+    }
+    
 }
 
 void Fifo_ring::put(int item)
 {
-    if (full_check < FIFO_SIZE)
+    if (!is_full())
     {
         buffer[back] = item;
         back = (back + 1) % FIFO_SIZE;
@@ -37,7 +47,6 @@ bool Fifo_ring::is_empty()
 
 bool Fifo_ring::is_full()
 {
-    // check if the buffer is full
     return full_check == FIFO_SIZE;
 }
 

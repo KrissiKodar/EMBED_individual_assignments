@@ -10,14 +10,23 @@ int Fifo::get()
     // shift all items in buffer forward by one
     // return the first item in the buffer
     // decrement the back_of_buffer variable
-    out_item = buffer[0];
-    for (int i = 0; i < FIFO_SIZE - 1; i++)
+    if (is_empty())
     {
-        buffer[i] = buffer[i + 1];
+        // if buffer is empty return 0 
+        return 0;
     }
-    buffer[FIFO_SIZE - 1] = 0;
-    back_of_buffer--;
-    return out_item;
+    else
+    {
+        out_item = buffer[0];
+        for (int i = 0; i < FIFO_SIZE - 1; i++)
+        {
+            buffer[i] = buffer[i + 1];
+        }
+        buffer[FIFO_SIZE - 1] = 0;
+        back_of_buffer--;
+        return out_item;
+    }
+    
 }
 
 void Fifo::put(int item)
