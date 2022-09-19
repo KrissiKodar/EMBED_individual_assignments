@@ -3,6 +3,20 @@
 
 #include <fifo.h>
 
+void test_reset(void)
+{
+    // 1 Setup
+    Fifo f;
+    f.put(1);
+    f.put(2);
+    f.reset();
+
+    // 2-3 Execute and validate
+    TEST_ASSERT_TRUE(f.is_empty());
+
+    // 4 Cleanup
+}
+
 void test_normal_flow(void)
 {
     // 1 Setup
@@ -35,19 +49,27 @@ void test_underflow(void)
     // 4 Cleanup
 }
 
-void test_get(void)
+void test_overflow(void)
 {
     // 1 Setup
     Fifo f;
     f.put(1);
+    f.get();
+    f.put(2);
+    f.put(3);
+    f.put(4);
+    f.get();
+    f.put(5);
+    f.put(6);
+    f.put(7);
 
     // 2-3 Execute and validate
-    TEST_ASSERT_EQUAL(1, f.get());
+    TEST_ASSERT_TRUE(f.is_full());
 
     // 4 Cleanup
 }
 
-void test_full(void)
+void test_overwrite(void)
 {
     // 1 Setup
     Fifo f;
@@ -56,22 +78,19 @@ void test_full(void)
     f.put(3);
     f.put(4);
     f.put(5);
+    // it wants to put 6 here, but the buffer is full
+    // 
+    f.put(6);
+    f.put(7);
+
 
     // 2-3 Execute and validate
     TEST_ASSERT_TRUE(f.is_full());
-
-    // 4 Cleanup
-}
-
-void test_reset(void)
-{
-    // 1 Setup
-    Fifo f;
-    f.put(1);
-    f.put(2);
-    f.reset();
-
-    // 2-3 Execute and validate
+    TEST_ASSERT_EQUAL(1, f.get());
+    TEST_ASSERT_EQUAL(2, f.get());
+    TEST_ASSERT_EQUAL(3, f.get());
+    TEST_ASSERT_EQUAL(4, f.get());
+    TEST_ASSERT_EQUAL(5, f.get());
     TEST_ASSERT_TRUE(f.is_empty());
 
     // 4 Cleanup
@@ -89,9 +108,9 @@ int main()
     RUN_TEST(test_normal_flow);
     RUN_TEST(test_underflow);
     // Add more unit tests here
-    RUN_TEST(test_get);
-    RUN_TEST(test_full);
     RUN_TEST(test_reset);
+    RUN_TEST(test_overflow);
+    RUN_TEST(test_overwrite);
 
     UNITY_END(); // stop unit testing
 }
