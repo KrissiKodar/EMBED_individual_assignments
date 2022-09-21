@@ -8,26 +8,26 @@ Fifo_ring::Fifo_ring()
 int Fifo_ring::get()
 {
     int front_item = buffer[front];
-    front = (front + 1) % FIFO_SIZE;
-    full_check--;
+    if (front_item != 0)
+    {
+        front = (front + 1) % FIFO_SIZE;
+        full_check--;
+    }
     return front_item;
 }
 
 void Fifo_ring::put(int item)
 {
-    if (full_check < FIFO_SIZE)
+    if ((back == front) && (full_check != 0))
     {
-        buffer[back] = item;
-        back = (back + 1) % FIFO_SIZE;
-        full_check++;
+        front = (front + 1) % FIFO_SIZE;
     }
     else
     {
-        // do nothing
-        // the buffer is full
-        // therefore the item is not added
-        // it is overwritten
+        full_check++;
     }
+    buffer[back] = item;
+    back = (back + 1) % FIFO_SIZE;
 }
 
 bool Fifo_ring::is_empty()
@@ -37,7 +37,6 @@ bool Fifo_ring::is_empty()
 
 bool Fifo_ring::is_full()
 {
-    // check if the buffer is full
     return full_check == FIFO_SIZE;
 }
 
