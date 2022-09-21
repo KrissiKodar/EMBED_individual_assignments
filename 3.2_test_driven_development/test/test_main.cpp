@@ -1,12 +1,13 @@
 #include <avr/delay.h>
 #include <unity.h>
 
-//#include <fifo.h>
+//#include <fifo_h>
 #include <fifo_ring.h>
 
 void test_reset(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
     f.put(2);
@@ -21,6 +22,7 @@ void test_reset(void)
 void test_put(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
 
@@ -33,6 +35,7 @@ void test_put(void)
 void test_empty(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
     f.put(2);
@@ -49,6 +52,7 @@ void test_empty(void)
 void test_normal_flow(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
     f.put(2);
@@ -66,6 +70,7 @@ void test_underflow(void)
 
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     //f.get();
     f.put(1);
@@ -82,6 +87,7 @@ void test_underflow(void)
 void test_overflow(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
     f.get();
@@ -102,6 +108,7 @@ void test_overflow(void)
 void test_overwrite(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
     f.put(2);
@@ -116,11 +123,11 @@ void test_overwrite(void)
 
     // 2-3 Execute and validate
     TEST_ASSERT_TRUE(f.is_full());
-    TEST_ASSERT_EQUAL(1, f.get());
-    TEST_ASSERT_EQUAL(2, f.get());
     TEST_ASSERT_EQUAL(3, f.get());
     TEST_ASSERT_EQUAL(4, f.get());
     TEST_ASSERT_EQUAL(5, f.get());
+    TEST_ASSERT_EQUAL(6, f.get());
+    TEST_ASSERT_EQUAL(7, f.get());
     TEST_ASSERT_TRUE(f.is_empty());
 
     // 4 Cleanup
@@ -129,6 +136,7 @@ void test_overwrite(void)
 void test_a_lot(void)
 {
     // 1 Setup
+    // Fifo f;
     Fifo_ring f;
     f.put(1);
     f.put(2);
