@@ -1,0 +1,1 @@
+cmd_/home/pi/assignment_4.2_Linux_Kernel_Module/part2/mydev.mod := { echo  /home/pi/assignment_4.2_Linux_Kernel_Module/part2/mydev.o;  echo; } > /home/pi/assignment_4.2_Linux_Kernel_Module/part2/mydev.mod

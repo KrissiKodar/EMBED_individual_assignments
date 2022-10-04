@@ -1,0 +1,1 @@
+cmd_/home/pi/assignment_4.2_Linux_Kernel_Module/part1/hello.ko := ld -r -EL  -maarch64elf -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/pi/assignment_4.2_Linux_Kernel_Module/part1/hello.ko /home/pi/assignment_4.2_Linux_Kernel_Module/part1/hello.o /home/pi/assignment_4.2_Linux_Kernel_Module/part1/hello.mod.o;  true
