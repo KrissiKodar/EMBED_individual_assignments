@@ -3,7 +3,9 @@
 #include<unistd.h>
 #include<termios.h>   // using the termios.h library
 
-void stdin_set(int cmd)
+
+// geyma
+/* void stdin_set(int cmd)
 {
    struct termios options;
    tcgetattr(STDIN_FILENO, &options);
@@ -16,7 +18,7 @@ void stdin_set(int cmd)
       break;
    }
    tcsetattr(STDIN_FILENO, TCSANOW, &options);
-}
+} */
 
 int main(){
    int fd, count;
@@ -28,16 +30,9 @@ int main(){
    struct termios options;       // the termios structure is vital
    tcgetattr(fd, &options);    // sets the parameters for the file
 
-   options.c_cflag &= ~(CSIZE | PARENB | CSTOPB);
-   options.c_cflag |= CS8;
-   options.c_iflag |= IGNPAR;
-
-   if (cfsetispeed(&options, B57600) < 0 || cfsetospeed(&options, B57600) < 0) {
-      perror("UART: ERROR setting baud rate.\n");
-      return -1;
-   }
-
-   //tcflush(fd, TCIFLUSH);            // discard file information
+   options.c_cflag = B57600 | CS8 | CREAD | CLOCAL;
+   options.c_iflag = IGNPAR | ICRNL;   // ignore partity errors
+   tcflush(fd, TCIFLUSH);            // discard file information
    tcsetattr(fd, TCSANOW, &options); // changes occur immmediately
 
    char transmit[100];
