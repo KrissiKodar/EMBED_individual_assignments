@@ -4,22 +4,6 @@
 #include<termios.h>   // using the termios.h library
 
 
-// geyma
-/* void stdin_set(int cmd)
-{
-   struct termios options;
-   tcgetattr(STDIN_FILENO, &options);
-   switch (cmd) {
-   case 1:
-      options.c_lflag &= ~ICANON;
-      break;
-   default:
-      options.c_lflag |= ICANON;
-      break;
-   }
-   tcsetattr(STDIN_FILENO, TCSANOW, &options);
-} */
-
 int main(){
    int fd, count;
    if ((fd= open("/dev/ttyS0", O_RDWR | O_NOCTTY | O_NDELAY))<0){
@@ -32,6 +16,7 @@ int main(){
 
    options.c_cflag = B57600 | CS8 | CREAD | CLOCAL;
    options.c_iflag = IGNPAR | ICRNL;   // ignore partity errors
+   
    tcflush(fd, TCIFLUSH);            // discard file information
    tcsetattr(fd, TCSANOW, &options); // changes occur immmediately
 
