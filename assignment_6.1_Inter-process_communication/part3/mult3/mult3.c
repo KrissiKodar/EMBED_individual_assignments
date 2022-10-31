@@ -7,7 +7,9 @@
 #include <fcntl.h> 
 #include <sys/types.h> 
 #include <errno.h> 
-#include <semaphore.h> 
+#include <semaphore.h>
+
+#include <stdint.h> // for uint8_t
 
 #define SHM_SEGMENT_SIZE 256
 
@@ -73,16 +75,14 @@ static void *get_shared_memory(void)
 int main(int argc, char *argv[]) 
 
 { 
-  uint8_t multiplier = 3;
   printf("%s PID=%d\n", argv[0], getpid()); 
-  //char *shm_p = (char*) get_shared_memory(); 
-  uint8_t *shm_p = (uint8_t*) get_shared_memory(); 
+  uint8_t* shm_p = (uint8_t*) get_shared_memory(); 
+  uint8_t multiplier = 3;
 
   while (1) { 
+    usleep(1000000);
     sem_wait(demo_sem);
-    uint8_t mult3_counter = (*shm_p)*multiplier;
-    printf("Counter multiplied by 3 %d\n", mult3_counter); 
-
+    printf("Counter multiplied by 3 ----> %d\n", (*shm_p)*multiplier);
     sem_post(demo_sem); 
   } 
   return 0; 

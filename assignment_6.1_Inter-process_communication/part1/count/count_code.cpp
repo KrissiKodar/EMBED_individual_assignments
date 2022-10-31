@@ -6,7 +6,7 @@ int main(){
    int counter = 0;
    while (true)
    {
-      std::cout << "Counter: " << counter << std::endl;
+      std::cout << counter << std::endl;
       sleep(1);
       counter++;
    }

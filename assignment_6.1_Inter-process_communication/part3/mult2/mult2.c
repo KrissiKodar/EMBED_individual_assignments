@@ -9,6 +9,8 @@
 #include <errno.h> 
 #include <semaphore.h> 
 
+#include <stdint.h> // for uint8_t
+
 #define SHM_SEGMENT_SIZE 256
 
 #define SHM_SEGMENT_NAME "/demo-shm" 
@@ -73,18 +75,14 @@ static void *get_shared_memory(void)
 int main(int argc, char *argv[]) 
 
 { 
-  uint8_t multiplier = 2;
   printf("%s PID=%d\n", argv[0], getpid()); 
-  //char *shm_p = (char*) get_shared_memory(); 
-  uint8_t *shm_p = (uint8_t*) get_shared_memory(); 
-  
+  uint8_t* shm_p = (uint8_t*) get_shared_memory();
+  uint8_t multiplier = 2; 
 
-  while (1) { 
-    sem_wait(demo_sem); 
-    uint8_t mult2_counter = (*shm_p)*multiplier;
-    printf("%i\n", mult2_counter); 
-
-    printf("Counter multiplied by 2 %d\n", mult2_counter); 
+  while (1) {
+    usleep(1000000);
+    sem_wait(demo_sem);
+    printf("Counter multiplied by 2 ----> %d\n", (*shm_p)*multiplier);
     sem_post(demo_sem); 
   } 
   return 0; 
